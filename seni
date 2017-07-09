@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+public class seni : MonoBehaviour {
+
+	// Use this for initialization
+	void Start () {
+		
+	}
+	public void sceneidou()
+	{
+		////////360/kitty/somple/uturiというシーンがあった場合
+		if (Application.loadedLevelName == "360") {
+			Application.LoadLevel ("kitty");
+		}
+		else if (Application.loadedLevelName == "kitty") {
+			Application.LoadLevel ("uturi");
+		}
+		else if (Application.loadedLevelName == "uturi") {
+			Application.LoadLevel ("simple");
+		}
+		else if (Application.loadedLevelName == "simple") {
+			Application.LoadLevel ("360");
+		}
+		}
+	// Update is called once per frame
+	void Update () {
+		
+	}
+}
