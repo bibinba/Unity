@@ -1,0 +1,79 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+[RequireComponent (typeof (GameObject))]
+[RequireComponent (typeof (Text))]
+public class idou : MonoBehaviour {
+	public Text scoreText; //Text用変数
+	private int score ; //スコア計算用変数
+	public GameObject obj;
+	private int a;
+
+	// Use this for initialization
+	void Start () {
+		score   = 0;
+		a = Random.Range (10, 21);
+		scoreText.text = string.Format( "要求額:{0}万 \n\n現在:0万",a*100);
+
+		obj = null;
+		//SetScore();   //初期スコアを代入して表示
+	}
+	public GameObject getClickObject() {
+		GameObject result = null;
+		// 左クリックされた場所のオブジェクトを取得
+		if(Input.GetMouseButtonDown(0)) {
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit = new RaycastHit();
+			if (Physics.Raycast(ray, out hit)){
+				result = hit.collider.gameObject;
+			}
+		}
+		return result;
+
+	}
+	// Update is called once per frame
+	void Update () {
+		
+		if (score == a*100) {
+			SceneManager.LoadScene ("Clear");
+		} else if (score > a*100) {
+			SceneManager.LoadScene ("dame");
+		}
+
+
+		GameObject obj = getClickObject ();///クリックだし
+		if (obj == null) {
+			Debug.Log ("No game object called wibble found");
+		}
+		if (obj.tag == "100") {
+			score += 100;
+		
+			obj.transform.position = new Vector3 (Random.Range (-0.5f, 0.5f), 0.147f, Random.Range (0.2f, 0.6f));//fをつけること
+		} else if (obj.tag == "200") {
+			score += 200;
+			obj.transform.position = new Vector3 (Random.Range (-0.5f, 0.5f), 0.147f, Random.Range (0.2f, 0.6f));//fをつけること
+		} 
+		else if (obj.tag == "300") {
+			score += 300;
+			obj.transform.position = new Vector3 (Random.Range (-0.5f, 0.5f), 0.147f, Random.Range (0.2f, 0.6f));//fをつけること
+		}else if (obj.tag == "400") {
+			score += 400;
+			obj.transform.position = new Vector3 (Random.Range (-0.5f, 0.5f), 0.147f, Random.Range (0.2f, 0.6f));//fをつけること
+		}else if (obj.tag == "500") {
+			score += 500;
+			obj.transform.position = new Vector3 (Random.Range (-0.5f, 0.5f), 0.147f, Random.Range (0.2f, 0.6f));//fをつけること
+		}else if (obj.tag == "600") {
+			score += 600;
+			obj.transform.position = new Vector3 (Random.Range (-0.5f, 0.5f), 0.147f, Random.Range (0.2f, 0.6f));//fをつけること
+		}else if(obj.tag==null){
+			Debug.Log ("No game object called wibble found");
+		}
+		Debug.Log (score);
+		scoreText.text = string.Format( "要求額:{0}万 \n\n現在:{1}万",a*100, score);
+
+}
+
+}
