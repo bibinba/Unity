@@ -1,0 +1,24 @@
+
+using UnityEngine;
+using System.Collections;
+
+public class webcam : MonoBehaviour {
+	public int Width = 1920;
+	public int Height = 1080;
+	public int FPS = 30;
+
+	public Material material;
+	WebCamTexture webcamTexture;
+
+	void Start () {
+		WebCamDevice[] devices = WebCamTexture.devices;
+		webcamTexture = new WebCamTexture(devices[0].name, Width, Height, FPS );
+	    material.mainTexture = webcamTexture;
+		webcamTexture.Play();
+	}
+
+	void Update () {
+
+
+	}
+}
