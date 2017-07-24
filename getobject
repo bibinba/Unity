@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class getobject : MonoBehaviour {
+	public Camera camera2; //カメラの定義
+	public EventSystem eventsystem; //イベントシステム（いろんなことに使う）の定義
+
+	//クリックでレイ（光線）とばす
+	public Ray ray2;
+	public Ray rayItem;
+	public RaycastHit hit;
+	public GameObject selectedGameObject;
+	public GameObject itemBtn_key;
+	public GameObject item_key;
+	// Use this for initialization
+	void Start () {
+		eventsystem = GameObject.Find("EventSystem").GetComponent<EventSystem>();
+		itemBtn_key = GameObject.Find("button");
+		itemBtn_key.SetActive(false);
+		item_key = GameObject.Find("key_gold");
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		if(Input.GetMouseButtonUp(0)){ //左クリック
+			if(eventsystem.currentSelectedGameObject==null){// UI以外（3D）をさわった
+				Debug.Log("3Dを触った");
+				searchRoom(); //3Dオブジェクトをクリックした時の処理
+			}else{ // UIをさわった
+				Debug.Log("Image");
+	//			switch(eventsystem.currentSelectedGameObject.name){
+//				case "button":
+//					//turnL();
+//
+//					break;
+//				}
+			}
+		}
+		
+	}
+	public void searchRoom(){
+		selectedGameObject=null;
+		ray2 = camera2.ScreenPointToRay(Input.mousePosition);
+		if (Physics.Raycast(ray2, out hit, 10000000,1 << 8)) {
+			selectedGameObject = hit.collider.gameObject;
+			switch(selectedGameObject.name){
+		//	Debug.Log("Image");
+			case "key":
+			item_key.SetActive(false);
+			itemBtn_key.SetActive(true);
+			break;
+		
+			}
+		}
+	}
+}
