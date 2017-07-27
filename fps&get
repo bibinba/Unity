@@ -1,0 +1,84 @@
+using UnityEngine;
+using System.Collections;
+
+public class fps: MonoBehaviour
+{
+	Rigidbody m_Rigidbody;
+	Ray ray;
+	public GameObject obj;
+	public Camera camera2;
+	void Start()
+	{
+		// 自分のRigidbodyを取ってくる
+		m_Rigidbody = GetComponent<Rigidbody>();
+	}
+//	public GameObject getClickObject() {
+//		GameObject result = null;
+//		// 左クリックされた場所のオブジェクトを取得
+//		if(Input.GetMouseButtonDown(0)) {
+//			Ray ray2 = camera2.ScreenPointToRay(Input.mousePosition);
+//			RaycastHit hit = new RaycastHit();
+//			if (Physics.Raycast(ray2, out hit)){
+//				result = hit.collider.gameObject;
+//			}
+//		}
+//		return result;
+//		//Debug.Log(result);
+//	}
+	void Update()
+
+	{
+	 ray = camera2.ScreenPointToRay(Input.mousePosition);
+	 transform.rotation = Quaternion.Slerp (transform.rotation, Quaternion.LookRotation (ray.direction), 0.1f);
+//		GameObject obj = getClickObject ();
+//		if (obj.tag == "key") {
+//
+//			Debug.Log("鍵をゲット");
+//		}
+//		if (obj.tag == "Player") {
+//			Debug.Log ("No game object called wibble found");
+//		}
+		// 十字キーで首を左右に回す
+//		if (Input.GetKey(KeyCode.RightArrow))
+//		{
+//			transform.Rotate(new Vector3(0.0f, 2.0f, 0.0f));
+//		}
+//		if (Input.GetKey(KeyCode.LeftArrow))
+//		{
+//			transform.Rotate(new Vector3(0.0f, -2.0f, 0.0f));
+//		}
+//
+//		if (Input.GetKey(KeyCode.UpArrow))
+//		{
+//			transform.Rotate(new Vector3(0.0f, 0.0f, -2.0f));
+//		}
+//
+//		if (Input.GetKey(KeyCode.DownArrow))
+//		{
+//			transform.Rotate(new Vector3(2.0f, 0.0f, 0.0f));
+//		}
+
+		// WASDで移動する
+		float x = 0.0f;
+		float z = 0.0f;
+
+		if (Input.GetKey(KeyCode.D))
+		{
+			x += 2.0f;
+		}
+		if (Input.GetKey(KeyCode.A))
+		{
+			x -= 2.0f;
+		}
+		if (Input.GetKey(KeyCode.W))
+		{
+			z += 2.0f;
+		}
+		if (Input.GetKey(KeyCode.S))
+		{
+			z -= 2.0f;
+		}
+
+		m_Rigidbody.velocity = z * transform.forward + x * transform.right;
+	}
+}
