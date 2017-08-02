@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+public class distance : MonoBehaviour {
+	public GameObject objA;
+	public GameObject objB;
+	public GameObject objC;
+
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		Vector3 Apos = objA.transform.position;
+		Vector3 Bpos = objB.transform.position;
+		Vector3 Cpos = objC.transform.position;
+		float dis1 = Vector3.Distance(Apos,Bpos);
+		float dis2 = Vector3.Distance(Apos,Cpos);
+
+		Debug.Log("Distance : " + dis1+":"+dis2);
+		if ((dis1 > 18)&&(dis2>16)) {
+			Debug.Log ("離れた");	
+			SceneManager.LoadScene ("escape");
+		}
+	}
+}
