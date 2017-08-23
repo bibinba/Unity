@@ -1,0 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+public class raka : MonoBehaviour {
+	float countTime = 0;
+	// Use this for initialization
+	void Start () {
+		canvasobj.SetActive ("end", false);
+//		var timeScore = new System.TimeSpan (4, 1, 2, 3, countTime);
+//		naichilab.RankingLoader.Instance.SendScoreAndShowRanking (timeScore);
+
+		//naichilab.RankingLoader.Instance.SendScoreAndShowRanking (100);
+	}
+	
+	// Update is called once per frame
+	void Update () {
+
+
+		Vector3 tmp = GameObject.Find("PQchan").transform.position;
+		float y = tmp.y;
+		countTime += Time.deltaTime;
+		if (y < -1) {
+			canvasobj.SetActive ("end", true);
+			canvasobj.SetActive ("ue", false);
+			canvasobj.SetActive ("usiro", false);
+			if (Input.GetKeyDown (KeyCode.Space)) {
+
+				Application.LoadLevel("1"); 
+
+			}
+		}
+			//SceneManager.LoadScene("1");
+			//naichilab.RankingLoader.Instance.SendScoreAndShowRanking ((int)countTime);
+
+		//var timeScore = new System.TimeSpan ( 0,0,0, 0, (int)countTime);
+		//Debug.Log ("timescore"+timeScore);
+
+		if (Input.GetKeyDown (KeyCode.Tab)) {
+			//Debug.Log (countTime);
+			//Application.LoadLevel("1"); 
+			canvasobj.SetActive("end", true);
+	
+	}
+
+
+}
+}
