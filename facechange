@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class facechange : MonoBehaviour {
+	[SerializeField]
+	protected GameObject queryChan;
+	private float timeleft;
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		timeleft -= Time.deltaTime;
+		if (timeleft <= 0.0) {
+			timeleft = 2.0f;
+			if (ranking.rakka == 0) {
+				int a = Random.Range (1, 24);
+				ChangeFace ((QueryEmotionalController.QueryChanEmotionalType)a);
+			} else if(ranking.rakka == 1) {
+				ChangeFace ((QueryEmotionalController.QueryChanEmotionalType)23);
+			}
+			else if(ranking.rakka == 2) {
+				ChangeFace ((QueryEmotionalController.QueryChanEmotionalType)15);
+			}
+	}
+	}
+	void ChangeFace (QueryEmotionalController.QueryChanEmotionalType faceNumber) {
+
+		queryChan.GetComponent<QueryEmotionalController>().ChangeEmotion(faceNumber);
+
+	}
+}
