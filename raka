@@ -4,42 +4,58 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class raka : MonoBehaviour {
 	float countTime = 0;
+	public static int rakka = 0;
+	public GameObject objA;
+	public GameObject objB;
+	private int clear=0;
 	// Use this for initialization
 	void Start () {
-		canvasobj.SetActive ("end", false);
-//		var timeScore = new System.TimeSpan (4, 1, 2, 3, countTime);
-//		naichilab.RankingLoader.Instance.SendScoreAndShowRanking (timeScore);
-
-		//naichilab.RankingLoader.Instance.SendScoreAndShowRanking (100);
+		canvasobj.SetActive ("end", false);////ゲームオーバー画面を非表示にする。
+		canvasobj.SetActive ("clear", false);
+		rakka = 0;
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-
-
-		Vector3 tmp = GameObject.Find("PQchan").transform.position;
-		float y = tmp.y;
-		countTime += Time.deltaTime;
-		if (y < -1) {
-			canvasobj.SetActive ("end", true);
+		//////距離が近づいたらクリア
+		Vector3 Apos = objA.transform.position;
+		Vector3 Bpos = objB.transform.position;
+		float dis = Vector3.Distance(Apos,Bpos);
+		Debug.Log("Distance : " + dis);
+		if (dis < 13) {
+			canvasobj.SetActive ("clear", true);
 			canvasobj.SetActive ("ue", false);
-			canvasobj.SetActive ("usiro", false);
-			if (Input.GetKeyDown (KeyCode.Space)) {
+			canvasobj.SetActive ("sousa", false);
+			rakka = 2;///表情変化に伝える。
+			clear=1;
+			if (Input.GetKeyDown (KeyCode.Escape)) {
 
 				Application.LoadLevel("1"); 
 
 			}
 		}
-			//SceneManager.LoadScene("1");
-			//naichilab.RankingLoader.Instance.SendScoreAndShowRanking ((int)countTime);
 
-		//var timeScore = new System.TimeSpan ( 0,0,0, 0, (int)countTime);
-		//Debug.Log ("timescore"+timeScore);
+		////落下したらゲームオーバー
+		Vector3 tmp = GameObject.Find("PQchan").transform.position;
+		float y = tmp.y;
+		countTime += Time.deltaTime;
+		if (y < -0.5f&&clear==0) {
+			canvasobj.SetActive ("end", true);
+			canvasobj.SetActive ("ue", false);
+			canvasobj.SetActive ("sousa", false);
+			rakka = 1;///表情変化に伝える。
 
-		if (Input.GetKeyDown (KeyCode.Tab)) {
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+
+				Application.LoadLevel("1"); 
+
+			}
+		}
+
+		///////ゲーム中にescapeキーで最初に戻れる。
+		if (Input.GetKeyDown (KeyCode.Escape)) {
 			//Debug.Log (countTime);
-			//Application.LoadLevel("1"); 
-			canvasobj.SetActive("end", true);
+			Application.LoadLevel("1"); 
+
 	
 	}
 
