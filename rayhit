@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI; 
+using UnityEngine.SceneManagement;
+
+public class ray : MonoBehaviour {
+	public ParticleSystem particle2;
+	public ScoreText scoreText;
+	//private int a=0;
+	//private float timeleft=1.0f;
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () 
+	{
+		Vector3 center=new Vector3(Screen.width/2,Screen.height/2);
+		Ray ray=Camera.main.ScreenPointToRay(center);
+		RaycastHit hit;
+		if(Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0)){
+		//if (Input.GetMouseButtonDown(0)) {
+			if (Physics.Raycast (ray, out hit, 1000.0f)) {
+				// hit.point が正面方向へRayをとばした際の接触座標.
+				Debug.Log ("ヒットした");
+				if (hit.collider.gameObject.tag =="cube") {
+					// 衝突したオブジェクトの色を赤に変える
+					hit.collider.GetComponent<MeshRenderer>().material.color = Color.red;
+					particle2.transform.position = hit.point;
+					particle2.Emit(2);
+
+						Destroy (hit.collider.gameObject);
+					scoreText.GetComponent<ScoreText>().score++;
+					
+				}
+		}
+			
+	}
+		if (scoreText.GetComponent<ScoreText> ().score > 5) {
+			SceneManager.LoadScene("1");
+			
+		}
+			
+}
+}
