@@ -1,0 +1,84 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using VRTK;
+
+public class facemorph : MonoBehaviour {
+	VRTK_InteractableObject interact;
+	MMD4MecanimMorphHelper eyebrow_morph;
+	MMD4MecanimMorphHelper eye_morph;
+	MMD4MecanimMorphHelper lip_morph;
+
+	Transform headset;
+	Transform face;
+
+	void Awake(){
+		VRTK_SDKManager.instance.AddBehaviourToToggleOnLoadedSetupChange (this);
+	}
+
+	void OnDestroy(){
+		VRTK_SDKManager.instance.RemoveBehaviourToToggleOnLoadedSetupChange(this);
+	}
+
+	void OnEnable(){
+		headset = VRTK_DeviceFinder.HeadsetTransform ();
+	}
+
+	// Use this for initialization
+	void Start () {
+		interact = GetComponent<VRTK_InteractableObject> ();
+		interact. InteractableObjectTouched += DoTouched; // 触った時の関数を登録 
+		interact. InteractableObjectUntouched += DoUntouched; //触るのやめた時 
+		interact. InteractableObjectUsed += DoUsed; //使った時(=トリガ一ボタンを押した) 
+		interact. InteractableObjectUnused += DoUnused; //使うのやめた時(=トリガーボタンを離した)
+
+		eyebrow_morph = gameObject.AddComponent<MMD4MecanimMorphHelper>();
+		eye_morph=gameObject.AddComponent<MMD4MecanimMorphHelper>();
+		lip_morph=gameObject.AddComponent<MMD4MecanimMorphHelper>();
+
+		face = transform.Find ("face").transform;
+
+	}
+	private void DoTouched (object sender, InteractableObjectEventArgs e) // 触った
+	{
+		eye_morph.morphName = "まばたき"; 
+		eye_morph.morphWeight = 1.0f; //表情变更
+	}
+	private void DoUntouched (object sender, InteractableObjectEventArgs e) // 触った
+	{
+		
+		eye_morph.morphWeight = 0.0f; //表情变更
+	}
+	private void DoUsed (object sender, InteractableObjectEventArgs e) // トリガー
+	{
+		eye_morph.morphName = "笑い"; 
+		eye_morph.morphWeight = 1.0f; //表情变更
+	}
+	private void DoUnused(object sender, InteractableObjectEventArgs e) // トリガー
+	{
+		eye_morph.morphWeight = 1.0f; //表情变更
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		if (headset != null) {
+			float distance = Vector3.Distance (headset.position, face.position);
+			if (distance < 0.5f) {
+				eyebrow_morph.morphName = "困り";
+				eyebrow_morph.morphWeight = 1.0f; //表情变更
+
+				eyebrow_morph.morphName = "下";
+				eyebrow_morph.morphWeight = 1.0f; //表情变更
+
+				lip_morph.morphName = "え";
+				lip_morph.morphWeight = 1.0f; //表情变更
+			} else {
+				if ((interact.IsTouched () == false) && (interact.IsUsing () == false)) {
+					eye_morph.morphWeight = 0.0f;
+				}
+				lip_morph.morphWeight = 0.0f;
+				eyebrow_morph.morphWeight = 0.0f;
+			}
+		}
+	}
+}
