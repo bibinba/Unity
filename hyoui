@@ -1,0 +1,122 @@
+using UnityEngine;
+using System;
+using System.Collections;
+
+[RequireComponent(typeof(Animator))]
+
+//Name of class must be name of file as well
+
+public class hyoui : MonoBehaviour
+{
+
+    protected Animator avatar;
+
+    public bool ikActive = false;
+    public Transform bodyObj = null;
+    public Transform leftHandObj = null;
+    public Transform rightHandObj = null;
+   // public Transform lookAtObj = null;
+
+
+    public float leftHandWeightPosition = 1;
+    public float leftHandWeightRotation = 1;
+
+    public float rightHandWeightPosition = 1;
+    public float rightHandWeightRotation = 1;
+
+   // public float lookAtWeight = 1.0f;
+
+    // Use this for initialization
+    void Start()
+    {
+        avatar = GetComponent<Animator>();
+    }
+
+    void OnGUI()
+    {
+
+        //GUILayout.Label("Activate IK and move the Effectors around in Scene View");
+        //ikActive = GUILayout.Toggle(ikActive, "Activate IK");
+    }
+
+
+    void OnAnimatorIK(int layerIndex)
+    {
+        if (avatar)
+        {
+            if (ikActive)
+            {
+
+                avatar.SetIKPositionWeight(AvatarIKGoal.LeftHand, leftHandWeightPosition);
+                avatar.SetIKRotationWeight(AvatarIKGoal.LeftHand, leftHandWeightRotation);
+
+                avatar.SetIKPositionWeight(AvatarIKGoal.RightHand, rightHandWeightPosition);
+                avatar.SetIKRotationWeight(AvatarIKGoal.RightHand, rightHandWeightRotation);
+
+               // avatar.SetLookAtWeight(lookAtWeight, 0.3f, 0.6f, 1.0f, 0.5f);
+
+                if (bodyObj != null)
+                {
+                    avatar.bodyPosition = bodyObj.position;// + avatar.bodyPosition * new Vector3(0, 0.5f, 0);
+                    avatar.bodyRotation = bodyObj.rotation;
+                }
+
+
+                if (leftHandObj != null)
+                {
+                    avatar.SetIKPosition(AvatarIKGoal.LeftHand, leftHandObj.position);
+                    avatar.SetIKRotation(AvatarIKGoal.LeftHand, leftHandObj.rotation);
+                }
+
+                if (rightHandObj != null)
+                {
+                    avatar.SetIKPosition(AvatarIKGoal.RightHand, rightHandObj.position);
+                    avatar.SetIKRotation(AvatarIKGoal.RightHand, rightHandObj.rotation);
+                }
+
+             //   if (lookAtObj != null)
+             //   {
+             //       avatar.SetLookAtPosition(lookAtObj.position);
+             //   }
+            }
+            else
+            {
+ 
+
+                avatar.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
+                avatar.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
+
+                avatar.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
+                avatar.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+
+              //  avatar.SetLookAtWeight(0.0f);
+
+                if (bodyObj != null)
+                {
+                    bodyObj.position = avatar.bodyPosition ;
+                    bodyObj.rotation = avatar.bodyRotation;
+                }
+
+               
+
+                if (leftHandObj != null)
+                {
+                    leftHandObj.position = avatar.GetIKPosition(AvatarIKGoal.LeftHand);
+                    leftHandObj.rotation = avatar.GetIKRotation(AvatarIKGoal.LeftHand);
+                }
+
+                if (rightHandObj != null)
+                {
+                    rightHandObj.position = avatar.GetIKPosition(AvatarIKGoal.RightHand);
+                    rightHandObj.rotation = avatar.GetIKRotation(AvatarIKGoal.RightHand);
+                }
+
+
+              //  if (lookAtObj != null)
+             //   {
+             //       lookAtObj.position = avatar.bodyPosition + avatar.bodyRotation * new Vector3(0, 0.5f, 1);
+             //   }
+            }
+        }
+    }
+}
