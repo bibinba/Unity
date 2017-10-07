@@ -1,0 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class idou2 : MonoBehaviour {
+
+	public GameObject player;
+	bool forwardmove;
+	bool backmove;
+	bool rightmove;
+	bool leftmove;
+	bool run;
+	private Vector3 prev;
+	private Animator animator;
+
+	void Start(){
+		prev = player.transform.position;
+		animator = player.GetComponent<Animator>();
+	}
+
+	void Update(){
+
+		var diff = player.transform.position - prev;
+		if (diff.magnitude > 0.01) {
+			player.transform.rotation = Quaternion.LookRotation(diff);
+		}
+		prev = player.transform.position;
+
+		if(forwardmove == true){
+			player.transform.position += new Vector3(0,0,1 * Time.deltaTime);
+			animator.SetBool("is_running", true);
+		}
+		if(backmove == true){
+			player.transform.position += new Vector3(0,0,-1 * Time.deltaTime);
+			animator.SetBool("is_running", true);
+		}
+		if(rightmove == true){
+			player.transform.position += new Vector3(1 * Time.deltaTime,0,0);
+			animator.SetBool("is_running", true);
+		}
+		if(leftmove == true){
+			player.transform.position += new Vector3(-1 * Time.deltaTime,0,0);
+			animator.SetBool("is_running", true);
+		}
+		if (forwardmove == false && backmove == false && leftmove == false && rightmove == false) {
+			animator.SetBool ("is_running", false);
+		}
+	}
+	public void forwardButtonDown(){
+		forwardmove = true;
+
+	}
+	public void forwardButtonUp(){
+		forwardmove = false;
+
+	}
+	public void backButtonDown(){
+		backmove = true;
+
+	}
+	public void backButtonUp(){
+		backmove = false;
+
+	}
+	public void rightButtonDown(){
+		rightmove = true;
+
+	}
+	public void rightButtonUp(){
+		rightmove = false;
+
+	}
+	public void leftButtonDown(){
+		leftmove = true;
+
+	}
+	public void leftButtonUp(){
+		leftmove = false;
+
+	}
+}
